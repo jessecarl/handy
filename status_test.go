@@ -144,6 +144,12 @@ func TestServeStatusUnsupportedCodes(t *testing.T) {
 		{http.StatusUseProxy, allMethods},
 		{http.StatusTemporaryRedirect, allMethods},
 		{http.StatusPermanentRedirect, allMethods},
+
+		// not covered
+		{0, allMethods},
+		{99, allMethods},
+		{600, allMethods},
+		{1234, allMethods},
 	}
 
 	for _, tc := range testCases {
