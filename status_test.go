@@ -7,6 +7,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
@@ -251,3 +252,16 @@ var (
 	idempotentMethods = append(safeMethods, http.MethodPut, http.MethodDelete)
 	allMethods        = append(idempotentMethods, http.MethodPost, http.MethodPatch)
 )
+
+func BenchmarkServeStatus(b *testing.B) {
+	s := httptest.NewServer(handy.ServeStatus())
+	urls := []string{"/100", "/200", "/300", "/400", "/500", "/foo", "/200/foo"}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		res, err := http.Get(s.URL + urls[rand.Int()%len(urls)])
+		if err != nil {
+			b.Fatalf("unexpected error making request: %+v", err)
+		}
+		res.Body.Close()
+	}
+}
