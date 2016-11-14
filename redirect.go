@@ -32,7 +32,7 @@ func (h *permanentHandler) init(redirects map[string]string) {
 func (h *permanentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.RLock()
 	defer h.RUnlock()
-	url, ok := h.redirects[q.URL.Path]
+	url, ok := h.redirects[r.URL.Path]
 	if !ok {
 		http.NotFound(w, r)
 		return
