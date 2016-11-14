@@ -13,8 +13,8 @@ type permanentHandler struct {
 	sync.RWMutex
 }
 
-// Returns an http.Handler that will permanently redirect any requests based on
-// the redirects map
+// ServePermanentRedirects provides an http.Handler that will permanently redirect
+// any requests based on the redirects map
 //     redirects[requestedURL] = redirectedURL
 func ServePermanentRedirects(redirects map[string]string) http.Handler {
 	h := new(permanentHandler)
@@ -29,13 +29,13 @@ func (h *permanentHandler) init(redirects map[string]string) {
 }
 
 // Serve Permanent Redirects
-func (h *permanentHandler) ServeHTTP(r http.ResponseWriter, q *http.Request) {
+func (h *permanentHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	h.RLock()
 	defer h.RUnlock()
 	url, ok := h.redirects[q.URL.Path]
 	if !ok {
-		http.NotFound(r, q)
+		http.NotFound(w, r)
 		return
 	}
-	http.Redirect(r, q, url, http.StatusMovedPermanently)
+	http.Redirect(w, r, url, http.StatusMovedPermanently)
 }
