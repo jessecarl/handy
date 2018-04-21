@@ -171,7 +171,7 @@ func TestServeStatusUnsupportedCodes(t *testing.T) {
 					t.Fatalf("request to /%03d returned status code %03d, expected %03d", tc.code, res.StatusCode, http.StatusNotFound)
 				}
 				if res.Header.Get("x-status-code") != "" {
-					t.Fatalf("request to /%03d returned x-status-code header %s, expected %03d", tc.code, res.Header.Get("x-status-code"), "")
+					t.Fatalf("request to /%03d returned x-status-code header %s, expected %s", tc.code, res.Header.Get("x-status-code"), "")
 				}
 				if res.Header.Get("x-status") != "" {
 					t.Fatalf("request to /%03d returned x-status header %q, expected %q", tc.code, res.Header.Get("x-status"), "")
@@ -224,7 +224,7 @@ func TestServeStatusNotCodes(t *testing.T) {
 					t.Fatalf("request to %q returned status code %03d, expected %03d", tc.path, res.StatusCode, http.StatusNotFound)
 				}
 				if res.Header.Get("x-status-code") != "" {
-					t.Fatalf("request to /%q returned x-status-code header %s, expected %03d", tc.path, res.Header.Get("x-status-code"), "")
+					t.Fatalf("request to /%q returned x-status-code header %s, expected %s", tc.path, res.Header.Get("x-status-code"), "")
 				}
 				if res.Header.Get("x-status") != "" {
 					t.Fatalf("request to /%q returned x-status header %q, expected %q", tc.path, res.Header.Get("x-status"), "")
