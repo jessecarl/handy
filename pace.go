@@ -12,7 +12,7 @@ import (
 func Pace(count int, work http.Handler) http.Handler {
 	sem := make(chan struct{}, count)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		sem <- struct{}
+		sem <- struct{}{}
 		defer func(){
 			<-sem
 		}()
